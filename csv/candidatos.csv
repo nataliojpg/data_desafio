@@ -1,4 +1,4 @@
-id_candidato,nombre,apellido,email,contrasena,sexo,id_status,fecha_registro,logged,last_logged,active
+id_candidate,first_name,last_name,email,password,gender,id_status,registration_date,logged,last_logged,active
 1,Tierney,Roycroft,troycroft0@so-net.ne.jp,gutierrez,Female,3,2023-11-09T17:24:36Z,False,2024-07-01 20:57:30.212678+00,True
 2,Valerye,Southon,vsouthon1@github.io,gutierrez,Female,1,2024-01-23T08:11:13Z,False,2024-07-01 20:57:30.212678+00,True
 3,Xylia,Arnott,xarnott2@is.gd,gutierrez,Female,3,2024-03-02T03:29:30Z,False,2024-07-01 20:57:30.212678+00,True

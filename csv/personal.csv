@@ -1,4 +1,4 @@
-id_personal,nombre,apellido,email,contrasena,id_rol,logged,last_logged_day,active
+id_staff,first_name,last_name,email,password,id_rol,logged,last_logged_day,active
 1,Ana,Zidane,zzidane@realmadrid.com,juancarlos,2,False,2024-07-01 20:57:30.212678+00,True
 2,Jose,Figo,luisfigo@realmadrid.com,juancarlos,2,False,2024-07-01 20:57:30.212678+00,True
 3,María,Nazario,ronaldo@realmadrid.com,juancarlos,2,False,2024-07-01 20:57:30.212678+00,True

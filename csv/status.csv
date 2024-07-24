@@ -1,0 +1,9 @@
+id_status,nombre_s 
+1,Registro
+2,Solicitud
+3,CentroEvaluacion
+4,Entrevista1
+5,Entrevista2
+6,Abandona
+7,Descartado
+8,Ofertado

@@ -13,9 +13,9 @@ import uvicorn
 app = FastAPI()
 
 DATABASE_CONFIG = {
-    'host': 'database-1.ct46wkioy0f3.us-east-1.rds.amazonaws.com',
+    'host': 'el host',
     'user': 'admin',
-    'password': 'huevosrotosconjamon',
+    'password': 'la contraseña',
     'database': 'exe_database',
     'port': 3306  
 }

@@ -49,7 +49,7 @@ def generate_radar_chart(data, labels, title):
 
     return plot_to_base64(plt)
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/notas", response_class=HTMLResponse)
 async def main():
     try:
         conn = get_db_connection()

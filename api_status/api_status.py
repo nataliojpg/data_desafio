@@ -30,7 +30,7 @@ def plot_to_base64(plt):
     string = base64.b64encode(buf.read())
     return 'data:image/png;base64,' + urllib.parse.quote(string)
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/status", response_class=HTMLResponse)
 def read_root():
     try:
         conn = get_db_connection()

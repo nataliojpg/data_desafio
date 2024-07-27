@@ -9,14 +9,15 @@ import urllib.parse
 from fastapi.responses import HTMLResponse
 import pandas as pd
 import uvicorn
+import os
 
 app = FastAPI()
 
 DATABASE_CONFIG = {
-    'host': HOST,
-    'user': USER,
-    'password': PASSWORD,
-    'database': DATABASE,
+    'host': os.getenv('HOST'),
+    'user': os.getenv('USER'),
+    'password': os.getenv('PASSWORD'),
+    'database': os.getenv('DATABASE'),
     'port': 3306  
 }
 

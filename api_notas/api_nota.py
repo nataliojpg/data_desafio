@@ -10,15 +10,16 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 import pandas as pd
+import os
 
 app = FastAPI()
 
 # Configuración de la base de datos
 DATABASE_CONFIG = {
-    'host': 'el host',
-    'user': 'admin',
-    'password': 'passwor',
-    'database': 'exe_database',
+    'host': os.getenv('HOST'),
+    'user': os.getenv('USER'),
+    'password': os.getenv('PASSWORD'),
+    'database': os.getenv('DATABASE'),
     'port': 3306 
 }
 
@@ -49,7 +50,7 @@ def generate_radar_chart(data, labels, title):
 
     return plot_to_base64(plt)
 
-@app.get("/notas", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def main():
     try:
         conn = get_db_connection()

@@ -13,10 +13,10 @@ import uvicorn
 app = FastAPI()
 
 DATABASE_CONFIG = {
-    'host': 'el host',
-    'user': 'admin',
-    'password': 'paswor',
-    'database': 'exe_database',
+    'host': HOST,
+    'user': USER,
+    'password': PASSWORD,
+    'database': DATABASE,
     'port': 3306  
 }
 

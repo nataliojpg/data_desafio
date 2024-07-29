@@ -276,7 +276,7 @@ async def academic():
 
     try:
         query = """
-            SELECT f.academic_degree, c.id_candidate, c.active
+            SELECT f.academic_degree
             FROM form f
             INNER JOIN candidate c ON f.id_candidate = c.id_candidate
             WHERE c.active = 1
@@ -312,7 +312,7 @@ async def nivel_ingles():
 
     try:
         query = """
-            SELECT f.languages, c.id_candidate, c.active
+            SELECT f.languages
             FROM form f
             INNER JOIN candidate c ON f.id_candidate = c.id_candidate
             WHERE c.active = 1

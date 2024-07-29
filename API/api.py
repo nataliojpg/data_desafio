@@ -340,6 +340,41 @@ async def nivel_ingles():
         if conn is not None:
             conn.close()
 
+# DATA RECLUTADORES
+@app.get("/reclutadores", response_class=JSONResponse)
+async def reclutadores():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        query = """
+             SELECT ga.id_grades, s.first_name
+            FROM grades_apt ga
+            INNER JOIN staff s ON ga.id_staff = s.id_staff
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="No se encontraron reclutadores")
+
+        df = pd.DataFrame(results, columns= ['id_grades', 'first_name'])
+
+        recluter_counts = df['first_name'].value_counts().sort_index().to_dict()
+        labels = list(recluter_counts.keys())
+        values = list(recluter_counts.values())
+
+        return JSONResponse(content={"labels": labels, "values": values})
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 

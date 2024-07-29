@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 import os
 from fastapi.middleware.cors import CORSMiddleware
+import re
 
 
 app = FastAPI()
@@ -240,14 +241,23 @@ async def registros():
         if not results:
             raise HTTPException(status_code=404, detail="No se encontraron registros")
 
-        # Crear un DataFrame y extraer el mes
+
         df = pd.DataFrame(results, columns=['registration_date'])
-        df['registration_date'] = pd.to_datetime(df['registration_date'])
-        df['month'] = df['registration_date'].dt.strftime('%Y-%m')
+
+    
+        month_pattern = re.compile(r'(\d{4}-\d{2})')
+
+
+        df['month'] = df['registration_date'].apply(lambda x: month_pattern.match(x).group(1) if month_pattern.match(x) else None)
+
 
         month_counts = df['month'].value_counts().sort_index().to_dict()
 
-        return JSONResponse(content={"labels": list(month_counts.keys()), "values": list(month_counts.values())})
+
+        labels = list(month_counts.keys())
+        values = list(month_counts.values())
+
+        return JSONResponse(content={"labels": labels, "values": values})
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

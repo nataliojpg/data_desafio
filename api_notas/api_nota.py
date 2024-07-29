@@ -7,19 +7,19 @@ import io
 import base64
 import urllib.parse
 import uvicorn
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 import pandas as pd
-import os
+from pydantic import BaseModel
 
 app = FastAPI()
 
 # Configuración de la base de datos
 DATABASE_CONFIG = {
-    'host': os.getenv('HOST'),
-    'user': os.getenv('USER'),
-    'password': os.getenv('PASSWORD'),
-    'database': os.getenv('DATABASE'),
+    'host': 'database-1.ct46wkioy0f3.us-east-1.rds.amazonaws.com',
+    'user': 'admin',
+    'password': 'huevosrotosconjamon',
+    'database': 'exe_database',
     'port': 3306 
 }
 
@@ -30,41 +30,44 @@ def plot_to_base64(plt):
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight')
     buf.seek(0)
-    # Convertir la imagen en base64
     img_base64 = base64.b64encode(buf.read()).decode('utf-8')
     return 'data:image/png;base64,' + urllib.parse.quote(img_base64)
 
-def generate_radar_chart(data, labels, title):
-    data = np.concatenate((data, [data[0]]))
-    angles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False).tolist()
-    angles += angles[:1]
+class CandidateRequest(BaseModel):
+    name: str
+    lastname: str
 
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
-    ax.fill(angles, data, color='red', alpha=0.25)
-    ax.plot(angles, data, color='red', linewidth=2)
+@app.get("/")
+async def hallo():
+    return FileResponse("index2.html")
 
-    ax.set_yticklabels([])
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(labels)
-    plt.title(title)
+@app.post("/candidate-grades", response_class=HTMLResponse)
+async def main(candidate: CandidateRequest):
+    name = candidate.name
+    lastname = candidate.lastname
 
-    return plot_to_base64(plt)
+    if not name or not lastname:
+        raise HTTPException(status_code=400, detail="Es necesario poner el nombre y el apellido")
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-@app.get("/", response_class=HTMLResponse)
-async def main():
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
+        #conn = get_db_connection()
+        #cursor = conn.cursor()
 
         query = """
             SELECT c.id_candidate, c.first_name, c.last_name, ga.professionality, ga.domain, ga.resilience, 
                    ga.social_hab, ga.leadership, ga.collaboration, ga.commitment, ga.initiative, ga.id_assessment 
             FROM candidate c 
             INNER JOIN grades_apt ga ON c.id_candidate = ga.id_candidate 
-            WHERE first_name = 'Scottie' AND last_name = 'Cardo'
+            WHERE c.first_name = %s AND c.last_name = %s
         """
-        cursor.execute(query)
+        cursor.execute(query, (name, lastname))
         results2 = cursor.fetchall()
+
+        if not results2:
+            raise HTTPException(status_code=404, detail="Candidato no encontrado")
 
         df2 = pd.DataFrame(results2, columns=[
             'id_candidate', 'first_name', 'last_name', 'professionality', 'domain', 'resilience',
@@ -77,26 +80,30 @@ async def main():
 
         labels = ['professionality', 'domain', 'resilience', 'social_hab', 'leadership', 'collaboration', 'commitment', 'initiative']
 
+        radar_chart1 = radar_chart2 = radar_chart3 = ""
+
         # Evaluación Grupal
         if not df2_1.empty:
             data = df2_1.iloc[0][labels].values
             data = np.concatenate((data, [data[0]]))
             angles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False).tolist()
             angles += angles[:1]
-
+#
             fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
             ax.fill(angles, data, color='red', alpha=0.25)
             ax.plot(angles, data, color='red', linewidth=2)
             ax.set_yticklabels([])  
             ax.set_xticks(angles[:-1])
             ax.set_xticklabels(labels)
+            for label, angle in zip(ax.get_xticklabels(), angles):
+                x, y = label.get_position()
+                label.set_position((x, y + -0.1))
             ax.set_ylim(0, 5)
-            plt.title('Evaluación Grupal')
+            plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)  # Ajusta los márgenes
+
 
             radar_chart1 = plot_to_base64(plt)
             plt.close(fig)
-        else:
-            radar_chart1 = "No hay datos para la Evaluación Grupal"
 
         # Evaluación 1
         if not df2_2.empty:
@@ -111,13 +118,13 @@ async def main():
             ax.set_yticklabels([])  
             ax.set_xticks(angles[:-1])
             ax.set_xticklabels(labels)
+            for label, angle in zip(ax.get_xticklabels(), angles):
+                x, y = label.get_position()
+                label.set_position((x, y + -0.1))
             ax.set_ylim(0, 5)
-            plt.title('Evaluación 1')
 
             radar_chart2 = plot_to_base64(plt)
             plt.close(fig)
-        else:
-            radar_chart2 = "No hay datos para la Evaluación 1"
 
         # Evaluación 2
         if not df2_3.empty:
@@ -132,23 +139,23 @@ async def main():
             ax.set_yticklabels([])  
             ax.set_xticks(angles[:-1])
             ax.set_xticklabels(labels)
+            for label, angle in zip(ax.get_xticklabels(), angles):
+                x, y = label.get_position()
+                label.set_position((x, y + -0.1))
             ax.set_ylim(0, 5)
-            plt.title('Evaluación 2')
 
             radar_chart3 = plot_to_base64(plt)
             plt.close(fig)
-        else:
-            radar_chart3 = "No hay datos para la Evaluación 2"
 
         return HTMLResponse(content=f"""
         <html>
             <body>
-                <h1>Evaluaciones de Scottie Cardo</h1>
-                <h2>Evaluación 1</h2>
+                <h1>{name} {lastname}</h1>
+                <h2>Evaluación Grupal</h2>
                 <img src="{radar_chart1}" alt="Evaluación Grupal">
-                <h2>Evaluación 2</h2>
+                <h2>Evaluación 1</h2>
                 <img src="{radar_chart2}" alt="Evaluación 1">
-                <h2>Evaluación 3</h2>
+                <h2>Evaluación 2</h2>
                 <img src="{radar_chart3}" alt="Evaluación 2">
             </body>
         </html>
@@ -156,14 +163,24 @@ async def main():
 
     except Exception as e:
         print(f"Error: {e}")
-        return HTMLResponse(content=f"<html><body><h1>Error: {e}</h1></body></html>")
+        return HTMLResponse(content=f"""
+        <html>
+            <body>
+                <h1>Error: {e}</h1>
+                <img src="{radar_chart1}" alt="Evaluación Grupal">
+                <h2>Evaluación 1</h2>
+                <img src="{radar_chart2}" alt="Evaluación 1">
+                <h2>Evaluación 2</h2>
+                <img src="{radar_chart3}" alt="Evaluación 2">
+            </body>
+        </html>
+        """)
 
     finally:
-        cursor.close()
-        conn.close()
-
-
-     
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

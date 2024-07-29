@@ -101,6 +101,7 @@ async def main():
                         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)  # Ajusta los márgenes
 
             ax.set_ylim(0, 5)
+            radar_chart1 = plot_to_base64(plt)
             plt.show()
 
         else:

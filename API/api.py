@@ -4,8 +4,18 @@ import pandas as pd
 from fastapi.responses import JSONResponse
 import uvicorn
 import os
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # O especifica los dominios permitidos
+    allow_credentials=True,
+    allow_methods=["*"],  # O especifica los métodos permitidos
+    allow_headers=["*"],  # O especifica los encabezados permitidos
+)
 
 DATABASE_CONFIG = {
     'host': os.getenv('HOST'),
@@ -14,6 +24,7 @@ DATABASE_CONFIG = {
     'database': os.getenv('DATABASE'),
     'port': 3306  
 }
+
 
 def get_db_connection():
     return pymysql.connect(**DATABASE_CONFIG)

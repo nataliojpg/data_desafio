@@ -46,7 +46,7 @@ font_prop = font_manager.FontProperties(fname=font_path)
 async def hallo():
     return '/candidate-grades3'
 
-@app.post("/candidate-grades3", response_class=HTMLResponse)
+@app.get("/candidate-grades3", response_class=HTMLResponse)
 async def main():
 
     conn = get_db_connection()

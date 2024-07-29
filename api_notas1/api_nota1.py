@@ -11,16 +11,17 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 import pandas as pd
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
 # Configuración de la base de datos
 DATABASE_CONFIG = {
-    'host': 'database-1.ct46wkioy0f3.us-east-1.rds.amazonaws.com',
-    'user': 'admin',
-    'password': 'huevosrotosconjamon',
-    'database': 'exe_database',
-    'port': 3306 
+    'host': os.getenv('HOST'),
+    'user': os.getenv('USER'),
+    'password': os.getenv('PASSWORD'),
+    'database': os.getenv('DATABASE'),
+    'port': 3306  
 }
 
 def get_db_connection():

@@ -52,7 +52,6 @@ def read_root():
 
     plt.figure(figsize=(8, 8))
     wedges, texts, autotexts = plt.pie(stat_counts, autopct='%1.1f%%', startangle=140, textprops={'fontsize': 9})
-    plt.title('Status de Candidatos Activos', fontsize=15)
     for autotext in autotexts:
         autotext.set_position((1.8 * autotext.get_position()[0], 1.8 * autotext.get_position()[1]))
     plt.legend(wedges, stat_counts.index, title="Status", loc="center left", bbox_to_anchor=(1, 0.5), fontsize=10)
@@ -65,7 +64,6 @@ def read_root():
     html_content = f"""
     <html>
     <body>
-        <h1>Status de Candidatos Activos</h1>
         <img src="{status_img}" alt="Status de Candidatos Activos">
     </body>
     </html>

@@ -268,6 +268,76 @@ async def registros():
         if conn is not None:
             conn.close()
 
+# DATA NIVEL ACADEMICO
+@app.get("/academic", response_class=JSONResponse)
+async def academic():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        query = """
+            SELECT academic_degree
+            FROM form
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="No se encontraron niveles académicos")
+
+
+        df = pd.DataFrame(results)
+
+        adegree_counts = df['academic_degree'].value_counts().sort_index().to_dict()
+        labels = list(adegree_counts.keys())
+        values = list(adegree_counts.values())
+
+        return JSONResponse(content={"labels": labels, "values": values})
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
+
+# DATA NIVEL INGLES
+@app.get("/nivel-ingles", response_class=JSONResponse)
+async def nivel_ingles():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        query = """
+            SELECT languages
+            FROM form
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="No se encontraron niveles de inglés")
+
+
+        df = pd.DataFrame(results)
+
+        nivel_counts = df['languages'].value_counts().sort_index().to_dict()
+        labels = list(nivel_counts.keys())
+        values = list(nivel_counts.values())
+
+        return JSONResponse(content={"labels": labels, "values": values})
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 

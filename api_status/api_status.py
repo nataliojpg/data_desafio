@@ -32,6 +32,10 @@ def plot_to_base64(plt):
     return 'data:image/png;base64,' + urllib.parse.quote(string)
 
 @app.get("/", response_class=HTMLResponse)
+def hola():
+    return "/candidate-status"
+
+@app.get("/candidate-status", response_class=HTMLResponse)
 def read_root():
     try:
         conn = get_db_connection()

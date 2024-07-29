@@ -284,7 +284,7 @@ async def academic():
 
         if not results:
             raise HTTPException(status_code=404, detail="No se encontraron niveles académicos")
-
+        print("Results:", results)
 
         df = pd.DataFrame(results)
 
@@ -319,7 +319,7 @@ async def nivel_ingles():
 
         if not results:
             raise HTTPException(status_code=404, detail="No se encontraron niveles de inglés")
-
+        print("Results:", results)
 
         df = pd.DataFrame(results)
 

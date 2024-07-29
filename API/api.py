@@ -286,7 +286,7 @@ async def academic():
             raise HTTPException(status_code=404, detail="No se encontraron niveles académicos")
         print("Results:", results)
 
-        df = pd.DataFrame(results, columns= 'academic_degree')
+        df = pd.DataFrame(results, columns= ['academic_degree'])
 
         adegree_counts = df['academic_degree'].value_counts().sort_index().to_dict()
         labels = list(adegree_counts.keys())
@@ -322,7 +322,7 @@ async def nivel_ingles():
         
         print("Results:", results)
 
-        df = pd.DataFrame(results, columns='languages')
+        df = pd.DataFrame(results, columns=['languages'])
 
         nivel_counts = df['languages'].value_counts().sort_index().to_dict()
         labels = list(nivel_counts.keys())

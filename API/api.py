@@ -276,15 +276,16 @@ async def academic():
 
     try:
         query = """
-            SELECT academic_degree
-            FROM form
+            SELECT f.academic_degree, c.id_candidate, c.active
+            FROM form f
+            INNER JOIN candidate ON f.id_candidate = c.id_candidate
+            WHERE c.active = 1
         """
         cursor.execute(query)
         results = cursor.fetchall()
 
         if not results:
             raise HTTPException(status_code=404, detail="No se encontraron niveles académicos")
-        print("Results:", results)
 
         df = pd.DataFrame(results, columns= ['academic_degree'])
 
@@ -311,16 +312,16 @@ async def nivel_ingles():
 
     try:
         query = """
-            SELECT languages
-            FROM form
+            SELECT f.lenguages, c.id_candidate, c.active
+            FROM form f
+            INNER JOIN candidate ON f.id_candidate = c.id_candidate
+            WHERE c.active = 1
         """
         cursor.execute(query)
         results = cursor.fetchall()
 
         if not results:
             raise HTTPException(status_code=404, detail="No se encontraron niveles de inglés")
-        
-        print("Results:", results)
 
         df = pd.DataFrame(results, columns=['languages'])
 

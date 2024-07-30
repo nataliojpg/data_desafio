@@ -77,7 +77,7 @@ async def get_candidate(email: str) -> Dict[str, Any]:
             results = cursor.fetchall()
 
             if not results:
-                raise HTTPException(status_code=404, detail="Candidate not found")
+                raise HTTPException(status_code=404, detail="No hay notas disponibles aún.")
 
             candidate_info = {
                 "first_name": results[0]['first_name'],

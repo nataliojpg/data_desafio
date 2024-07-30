@@ -47,7 +47,7 @@ async def get_candidate(email: str) -> Dict[str, Any]:
     connection = None
     try:
         # Conectar a la base de datos
-        connection = pymysql.connect(**db_config)
+        connection = pymysql.connect(**DATABASE_CONFIG)
         with connection.cursor() as cursor:
             # Consulta para obtener datos del candidato y sus fases
             query = """

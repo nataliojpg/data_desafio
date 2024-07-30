@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import Dict, Any, List, Optional
 import pymysql
+import pymysql.cursors 
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -46,8 +47,8 @@ weights = {
 async def get_candidate(email: str) -> Dict[str, Any]:
     connection = None
     try:
-        # Conectar a la base de datos
-        connection = pymysql.connect(**DATABASE_CONFIG)
+        # Conectar a la base de datos con DictCursor
+        connection = pymysql.connect(**DATABASE_CONFIG, cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor() as cursor:
             # Consulta para obtener datos del candidato y sus fases
             query = """

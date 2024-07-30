@@ -26,7 +26,7 @@ DATABASE_CONFIG = {
     'user': os.getenv('USER'),
     'password': os.getenv('PASSWORD'),
     'database': os.getenv('DATABASE'),
-    'port': 330
+    'port': 3306
 }
 
 # Ponderaciones de las aptitudes

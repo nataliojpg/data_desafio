@@ -113,8 +113,8 @@ async def get_candidate(email: str) -> Dict[str, Any]:
                     comment = "El candidato es una opción ideal."
 
                 candidate_info.update({
-                    "average_score": f"La valoración media del candidato es {average_score}",
-                    "percentage_score": f"El desempeño del candidato es del {percentage_score}%",
+                    "average_score": {average_score},
+                    "percentage_score": {percentage_score},
                     "comment": comment
                 })
 

@@ -72,7 +72,7 @@ async def get_candidate(email: str) -> Dict[str, Any]:
                 ORDER BY
                     g.id_assessment
             """
-            cursor.execute(query, (email))
+            cursor.execute(query, (email,))
             results = cursor.fetchall()
 
             if not results:

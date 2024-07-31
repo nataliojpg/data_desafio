@@ -17,6 +17,7 @@ El repositorio está organizado de la siguiente manera:
     ↪ requirements.txt: Lista de dependencias necesarias para ejecutar la API.
     
 • **FILTER/:** Carpeta que contiene el código para el filtro de desempeño de los candidatos en las evaluaciones.
+
     ↪ api_grades_filter.py: Código fuente del filtro de desempeño (utiliza Python, FastAPI y Uvicorn).
     
     ↪ requirements.txt: Lista de dependencias necesarias para ejecutar el filtro.
@@ -24,30 +25,33 @@ El repositorio está organizado de la siguiente manera:
 
 ## Detalles Técnicos
 • **Base de Datos**
+
 La base de datos se encuentra alojada en la nube de AWS y se ha implementado utilizando MySQL. Las tablas fueron creadas y se han cargado datos de ejemplo desde los archivos CSV ubicados en la carpeta CSVs.
 
 • **API para Gráficas**
+
 La API proporciona varios endpoints que devuelven datos en formato JSON, los cuales son utilizados para generar gráficas en la web. Los endpoints disponibles son los siguientes:
 
-/status: Estado del proceso de los candidatos activos.
+    ↪ /status: Estado del proceso de los candidatos activos.
 
-/notas-evalgrupal: Media de notas en la evaluación grupal.
+    ↪ /notas-evalgrupal: Media de notas en la evaluación grupal.
 
-/notas-eval1: Media de notas en la evaluación personal 1.
+    ↪ /notas-eval1: Media de notas en la evaluación personal 1.
 
-/notas-eval2: Media de notas en la evaluación personal 2.
+    ↪ /notas-eval2: Media de notas en la evaluación personal 2.
 
-/generos: Distribución por géneros.
+    ↪ /generos: Distribución por géneros.
 
-/registros: Registro de candidatos por mes.
+    ↪ /registros: Registro de candidatos por mes.
 
-/academic: Nivel académico de candidatos.
+    ↪ /academic: Nivel académico de candidatos.
 
-/nivel-ingles: Nivel de inglés de candidatos.
+    ↪ /nivel-ingles: Nivel de inglés de candidatos.
 
-/reclutadores: Actividad por reclutador.
+    ↪ /reclutadores: Actividad por reclutador.
 
 • **Filtro de Desempeño**
+
 El filtro de desempeño de los candidatos clasifica las evaluaciones en base a los siguientes umbrales (se le hicieron ponderaciones a las aptitudes):
 
 Porcentaje de menos del 50%: No apto.
@@ -60,8 +64,13 @@ Entre 90% y 100%: Ideal.
 
 
 ## Herramientas
+
 Python
+
 FastAPI
+
 MySQL
+
 Pandas
+
 Uvicorn

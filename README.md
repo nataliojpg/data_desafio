@@ -1,4 +1,4 @@
-![Banner]("./img/banner.jpg")
+![Banner](./img/banner.jpg)
 # Data Science - Proyecto para EmpiezaPorEducar
 
 ## Descripción del Proyecto

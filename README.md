@@ -11,11 +11,14 @@ El repositorio está organizado de la siguiente manera:
 • **CSVs/:** Carpeta que contiene los archivos CSV con datos de prueba para las tablas de la base de datos.
 
 • **API/:** Carpeta que contiene la implementación de la API para las gráficas.
+
     ↪ api.py: Código fuente de la API (utiliza Python, MySQL, Pandas y Uvicorn).
+    
     ↪ requirements.txt: Lista de dependencias necesarias para ejecutar la API.
     
 • **FILTER/:** Carpeta que contiene el código para el filtro de desempeño de los candidatos en las evaluaciones.
     ↪ api_grades_filter.py: Código fuente del filtro de desempeño (utiliza Python, FastAPI y Uvicorn).
+    
     ↪ requirements.txt: Lista de dependencias necesarias para ejecutar el filtro.
 
 
@@ -27,22 +30,32 @@ La base de datos se encuentra alojada en la nube de AWS y se ha implementado uti
 La API proporciona varios endpoints que devuelven datos en formato JSON, los cuales son utilizados para generar gráficas en la web. Los endpoints disponibles son los siguientes:
 
 /status: Estado del proceso de los candidatos activos.
+
 /notas-evalgrupal: Media de notas en la evaluación grupal.
+
 /notas-eval1: Media de notas en la evaluación personal 1.
+
 /notas-eval2: Media de notas en la evaluación personal 2.
+
 /generos: Distribución por géneros.
+
 /registros: Registro de candidatos por mes.
+
 /academic: Nivel académico de candidatos.
+
 /nivel-ingles: Nivel de inglés de candidatos.
+
 /reclutadores: Actividad por reclutador.
 
 • **Filtro de Desempeño**
-El filtro de desempeño de los candidatos clasifica las evaluaciones en base a los siguientes umbrales:
-Se le hicieron ponderaciones a las aptitudes. 
+El filtro de desempeño de los candidatos clasifica las evaluaciones en base a los siguientes umbrales (se le hicieron ponderaciones a las aptitudes):
 
 Porcentaje de menos del 50%: No apto.
+
 Entre 50% y 70%: Cumple con las expectativas.
+
 Entre 70% y 90%: Excede las expectativas.
+
 Entre 90% y 100%: Ideal.
 
 

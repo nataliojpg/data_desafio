@@ -65,12 +65,12 @@ Entre 90% y 100%: Ideal.
 
 ## Herramientas
 
-Python
+    ✦ Python
 
-FastAPI
+    ✦ FastAPI
 
-MySQL
+    ✦ MySQL
 
-Pandas
+    ✦ Pandas
 
-Uvicorn
+    ✦ Uvicorn

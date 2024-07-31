@@ -1,5 +1,0 @@
-fastapi==0.111.1
-PyMySQL==1.1.1
-matplotlib==3.9.0
-pandas==2.2.2
-uvicorn==0.30.1

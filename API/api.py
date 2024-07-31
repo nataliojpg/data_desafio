@@ -12,10 +12,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # O especifica los dominios permitidos
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # O especifica los métodos permitidos
-    allow_headers=["*"],  # O especifica los encabezados permitidos
+    allow_methods=["*"], 
+    allow_headers=["*"],  
 )
 
 DATABASE_CONFIG = {
